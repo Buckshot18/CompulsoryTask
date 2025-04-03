@@ -30,23 +30,28 @@ def get_valid_int(prompt):
             print("Invalid input! Please enter a valid integer.")
 
 
+# Function to convert interest rate percentage to decimal
+def convert_rate(rate):
+    return rate / 100
+
+
 # IF THE USER CHOOSES INVESTMENT
 if user_input == "investment":
     deposit = get_valid_float("How much money are you depositing R ")
-    rate = get_valid_float("Enter the interest rate (e.g., 8 for 8%): ")
+    rate = convert_rate(get_valid_float("Enter the interest rate (e.g., 8 for 8%): "))
     years = get_valid_int("How many years do you plan on investing: ")
     interest = input("Enter 'simple' or 'compound' interest: ").lower()
 
     # SIMPLE INTEREST CALCULATIONS AND OUTPUT
     if interest == "simple":
-        total_amount = deposit * (1 + (rate / 100) * years)
+        total_amount = deposit * (1 + rate * years)
         print(
             f"The total amount after {years} years with simple interest is: R{round(total_amount, 2)}"
         )
 
     # COMPOUND INTEREST CALCULATIONS AND OUTPUT
     elif interest == "compound":
-        total_amount = deposit * math.pow((1 + (rate / 100)), years)
+        total_amount = deposit * math.pow((1 + rate), years)
         print(
             f"The total amount after {years} years with compound interest is: R{round(total_amount, 2)}"
         )
@@ -57,11 +62,11 @@ if user_input == "investment":
 # IF THE USER CHOOSES BOND
 elif user_input == "bond":
     house_value = get_valid_float("Please enter the value of the house: ")
-    rate = get_valid_float("Enter the interest rate: ")
+    rate = convert_rate(get_valid_float("Enter the interest rate: "))
     months_amount = get_valid_int("Total months to repay: ")
 
     # CALCULATION OF BOND REPAYMENT
-    monthly_rate = (rate / 100) / 12
+    monthly_rate = rate / 12
     repayment = (monthly_rate * house_value) / (
         1 - (1 + monthly_rate) ** (-months_amount)
     )
